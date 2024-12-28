@@ -14,7 +14,7 @@ const config = {
   // linesPer: linesPer,
   // viewPortPx: 956,
   // these times are all now hundredths of seconds
-  creditsPause: 500, // zero for no credits
+  creditsPause: 0, // zero for no credits
   interCycle: 300,
   interScore: 300,
   scoredPause: 100,

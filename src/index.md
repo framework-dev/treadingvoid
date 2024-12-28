@@ -14,16 +14,16 @@ could be used above to load Google fonts -->
   <div id="display" class="fade"></div>
 </div>
 <div id="byline">
-  <div class="clmleft">
-    <span id="bytext"><cite>Steep 2024 • 1974 &nbsp;&nbsp;&nbsp; Reunion</cite></span>
-  </div>
-  <div class="clmright">
+  <!-- <div class="clmleft"> -->
+    <span id="bytext"><cite>Treading the Void</cite> by Liu Yuxi (772-842), 2nd part, translated by John for 2024/25.<br>Contemporary calligraphy from the book <cite>Tangshi Shufa</cite>.</span>
+  <!-- </div> -->
+  <!-- <div class="clmright">
     <span style="font-size: 1.2vw;">John C.</span>
-  </div>
+  </div> -->
 </div>
 
 ```js
-console.log("--- Reunion July 2024 v1.3 ---");
+console.log("--- Treading the Void, Dec 2024 ---");
 import { config } from "/config.js";
 // --- DEBUG congiguration
 // config.startingPoint = 2; // DEBUG when RECORDING & REDUCTING EDIT here
@@ -31,74 +31,17 @@ import { config } from "/config.js";
 // config.running = false; // DEBUG
 import { mod, sleep, msToTime } from "/utils.js";
 var displayElem = document.getElementById("display");
-var paraNum;
-var paras;
-var scores;
-var spels = new Map(await FileAttachment("/data/spels.json").json());
+var paraNum, paras, scores, spels;
+// --- preprocessing ---
+console.log("--- preprocessing begins ---"); // DEBUG
+spels = new Map(await FileAttachment("/data/spels.json").json());
 displayElem.innerHTML = Array.from(spels.values())
   .map((spel) => spel.html)
   .join("");
-const tstamps = await FileAttachment("/data/reunion_tstamps.json").json();
-// --- preprocessing ---
-console.log("--- preprocessing begins ---"); // DEBUG
 paras = await FileAttachment("/data/paras.json").json();
-// scores = await linearScrs(tstamps, config.startingPoint, config.numParas);
-scores = await FileAttachment("/data/scores.json").json(); // TODO default algorithmic tstamps only
+scores = await FileAttachment("/data/scores.json").json();
 // console.log(paras[config.startingPoint]); // DEBUG , paras, scores
 console.log("--- preprocessing done ---"); // DEBUG
-// displayElem.addEventListener("mouseenter", () => {displayElem.innerHTML = paras[paraNum].reduce((a, c) => a + " " + spels.get(c).html, ""); toggleEmViz(displayElem);});
-// displayElem.addEventListener("mouseleave", () => displayElem.innerHTML = paras[paraNum].reduce((a, c) => a + " " + spels.get(c).normed, ""));
-// --- preprocessing functions ---
-function toggleEmViz(elem) {
-  let spans = Array.from(elem.getElementsByTagName("span"));
-  let ems = []
-  spans.forEach(span => ems = ems.concat(Array.from(span.getElementsByTagName("em"))));
-  ems.forEach((em => em.classList.add("visible")));
-}
-// --- preprocessing alignment ---
-function alignedSpels(alignmentJSON, _paraNum, spelNdx) {
-  // build aligned spels
-  // console.log("entered alignedSpels()"); // DEBUG
-  let aSpels = [];
-  alignmentJSON.forEach((alignedWord, idx) => {
-    // get length of time taken to pronounce word:
-    let p = alignedWord.end - alignedWord.start;
-    // if we are not at the last word of the segment
-    if (idx < alignmentJSON.length - 1) {
-      // add the difference between start of next word and end of this one
-      p = p + (alignmentJSON[idx + 1].start - alignedWord.end);
-    }
-    p = Math.round(p * 100); // convert to hundreths
-    // in this project all spell id's are unique because serial numbers are added
-    let spelId = alignedWord.word.trim() + "_" + spelNdx++;
-    if (!spels.has(spelId)) console.log(`alignment problem at: ${spelId} in para: ${_paraNum}`);
-    aSpels.push({
-      id: spelId,
-      pause: p + config.slower
-    }); // spels[idx]
-  });
-  return aSpels;
-}
-// --- building linear scores ---
-function linearScrs(_tstamps, startingPara, numParas) {
-  let scores = [];
-  let firstSpelId = paras[startingPara][0];
-  // console.log(firstSpelId, firstSpelId.match(/\d+/)[0]); // DEBUG
-  let spelNdx = parseInt(firstSpelId.match(/\d+/)[0]);
-  for (let i = 0; i < numParas; i++) {
-    let a = alignedSpels(_tstamps[startingPara + i], startingPara + i, spelNdx);
-    spelNdx += a.length;
-    // >>>  would add autofade here:
-    // a.unshift({
-    //   id: "AUTOFADE",
-    //   pause: config.fadeWords
-    // });
-    // <<<
-    scores.push(a);
-  }
-  return scores;
-}
-//
 // --- animation, based on the play() method in observablehq.com/@shadoof/sounding ---
 async function play() {
   console.log("entered play()");
@@ -127,6 +70,7 @@ async function play() {
       await sleep(300);
     }
     // <<<
+    score = scores[scoreNum];
     // >>> (currently) unused mechanism for generating quasi-random scores on the fly (see 'Uchaf'):
     // if (typeof scores[scoreNum] === "string") {
     //   switch (scores[scoreNum]) {
@@ -138,7 +82,7 @@ async function play() {
     //   }
     //   prevScore = score;
     // } else {
-      score = scores[scoreNum];
+    //   score = scores[scoreNum];
     // }
     // <<<
     // console.log(scoreSet, "scoreNum", scoreNum, scoreSet[scoreNum]); // DEBUG
