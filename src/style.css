@@ -1,0 +1,207 @@
+/* @font-face {
+  font-family: 'Source Serif 4';
+  src: local('Source Serif 4'),
+    url('data/SourceSerif4-Regular.ttf.woff2') format('woff2'),
+    url('data/SourceSerif4-Regular.ttf.woff') format('woff'),
+    url('data/SourceSerif4-Regular.ttf') format('ttf')
+} */
+
+/* font-face not (yet) working in Observable Framework, July 2024 */
+
+:root {
+  /* dark on light */
+  /* --bkgnd: #fffff5; */
+  /* --context: #39CCEE; */
+  /* --em: black; */
+  /* --text: #AAAAAA; */
+  /* -------------- */
+  /* light on dark */
+  --text: floralwhite;
+  --em: white;
+  --context: #af5c13;
+  --bkgnd: black;
+  /* possible clrs.cc blues #0074D9 lighter #7FDBFF teal #39CCCC */
+  /* very dark blue: #00182f */
+}
+
+html {
+  background-color: var(--bkgnd);
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+#observablehq-main {
+  margin-top: 0;
+}
+
+body {
+  margin-top: 0;
+  color: var(--text);
+  background-color: var(--bkgnd);
+  cursor: none;
+  font-family: "Source Serif 4", "Source Serif Pro", serif;
+  font-size: 2.5vw;
+  font-variant-ligatures: no-common-ligatures;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings:
+    "wght" 300,
+    "wdth" 100,
+    "YTLC" 500;
+  line-height: 1.8;
+}
+
+#frame {
+  position: relative;
+  padding: 2vw 5vw;
+  height: 45vw;
+  margin: none;
+}
+
+#display {
+  position: absolute;
+  color: var(--text);
+  margin: none;
+  top: 7vw;
+  left: 30vw;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  transition: opacity 2.5s ease-in-out;
+  -o-transition: opacity 2.5s ease-in-out;
+  -ms-transition: opacity 2.5s ease-in-out;
+  -moz-transition: opacity 2.5s ease-in-out;
+  -webkit-transition: opacity 2.5s ease-in-out;
+}
+
+img.zi {
+  position: absolute;
+  border: none;
+  /* top: -2.2vw;
+  left: -2.5vw; */
+  /* height: 100%; */
+  width: 25vw;
+  filter: invert(1);
+}
+
+#byline {
+  background-color: grey;
+  font-size: 1.6vw;
+  line-height: 1.1;
+  margin: none;
+  padding-top: 2vw;
+  padding-bottom: 2vw;
+  padding-left: 10vw;
+  padding-right: 10vw;
+  text-align: center;
+  z-index: 10;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity .7s ease-in-out;
+  -o-transition: opacity .7s ease-in-out;
+  -ms-transition: opacity .7s ease-in-out;
+  -moz-transition: opacity .7s ease-in-out;
+  -webkit-transition: opacity .7s ease-in-out;
+}
+
+#byline:hover {
+  opacity: 1;
+}
+
+#byline a {
+  color: var(--text);
+  text-decoration: none;
+  overflow: hidden;
+}
+
+#byline a:hover {
+  color: lightgray;
+}
+
+/* Clear floats after the columns */
+#byline:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+#display em {
+  font-style: normal;
+  /* font-weight: bold; */
+  /* darkred is good for debugging with orange */
+  transition: color .7s ease-in-out,
+    text-shadow .7s ease-in-out;
+  -o-transition: color .7s ease-in-out,
+    text-shadow .7s ease-in-out;
+  -ms-transition: color .7s ease-in-out,
+    text-shadow .7s ease-in-out;
+  -moz-transition: color .7s ease-in-out,
+    text-shadow .7s ease-in-out;
+  -webkit-transition: color .7s ease-in-out,
+    text-shadow .7s ease-in-out;
+}
+
+#display em.visible {
+  font-style: normal;
+  /* font-weight: bold; */
+  color: var(--em);
+  /* darkred is good for debugging with orange */
+}
+
+span {
+  transition: color .7s ease-in-out,
+    text-shadow .7s ease-in-out;
+  -o-transition: color .7s ease-in-out,
+    text-shadow .7s ease-in-out;
+  -ms-transition: color .7s ease-in-out,
+    text-shadow .7s ease-in-out;
+  -moz-transition: color .7s ease-in-out,
+    text-shadow .7s ease-in-out;
+  -webkit-transition: color .7s ease-in-out,
+    text-shadow .7s ease-in-out;
+}
+
+.clmleft {
+  float: left;
+  text-align: left;
+  width: 30%;
+}
+
+.clmright {
+  float: right;
+  text-align: right;
+  width: 70%;
+}
+
+.fade {
+  cursor: pointer;
+}
+
+.fade:hover {
+  color: var(--context);
+}
+
+.none {
+  display: none;
+}
+
+.visible {
+  color: var(--text);
+  /* text-shadow: .6ch .2ch .7ch var(--em); */
+}
+
+.spel {
+  position: absolute;
+  opacity: 0;
+  transition: all 1.5s ease-in-out;
+  -o-transition: all 1.5s ease-in-out;
+  -ms-transition: all 1.5s ease-in-out;
+  -moz-transition: all 1.5s ease-in-out;
+  -webkit-transition: all 1.5s ease-in-out;
+}
+
+.spel.visible {
+  opacity: 1;
+}
