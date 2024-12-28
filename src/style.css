@@ -44,7 +44,7 @@ body {
   font-family: "Source Serif 4", "Source Serif Pro", serif;
   font-size: 2.5vw;
   font-variant-ligatures: no-common-ligatures;
-  font-optical-sizing: auto;
+  font-optical-sizing: none;
   font-style: normal;
   font-variation-settings:
     "wght" 300,
